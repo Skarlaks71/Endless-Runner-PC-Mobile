@@ -9,7 +9,7 @@ public class ObjectPooler : MonoBehaviour
     public List<GameObject> pooledObjects;
     public GameObject[] objectToPool;
 
-
+    private List<GameObject> objectsInPool = new List<GameObject>();
     void Awake()
     {
         SharedInstance = this;
@@ -55,6 +55,22 @@ public class ObjectPooler : MonoBehaviour
         }
         return null;
     }
+    public GameObject GetRandomPooledObject()
+    {
 
+        int choose;
+        objectsInPool.Clear();
+        
+        foreach(GameObject obj in pooledObjects)
+        {
+            if (!obj.activeInHierarchy)
+            {
+                objectsInPool.Add(obj);
+            }
+        }
+        choose = Random.Range(0, objectsInPool.Count);
+
+        return objectsInPool[choose];
+    }
 
 }

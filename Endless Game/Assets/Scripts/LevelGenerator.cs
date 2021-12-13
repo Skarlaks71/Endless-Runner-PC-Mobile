@@ -28,7 +28,16 @@ public class LevelGenerator : MonoBehaviour
     {
         if (Camera.main.WorldToViewportPoint(spawnedSections[0].GetComponent<Section>().endPoint[0].position).z < 0)
         {
-
+            GameObject nextSection = ObjectPooler.SharedInstance.GetRandomPooledObject();
+            spawnedSections[0].SetActive(false);
+            spawnedSections.RemoveAt(0);
+            print(spawnedSections[0].name);
+            nextSection.transform.position = spawnedSections[0].GetComponent<Section>().endPoint[0].position;
+            nextSection.transform.rotation = spawnedSections[0].GetComponent<Section>().endPoint[0].rotation;
+            float distance = (nextSection.GetComponent<Section>().startPoint.position - nextSection.transform.position).magnitude;
+            nextSection.transform.position += nextSection.transform.forward * distance;
+            nextSection.SetActive(true);
+            spawnedSections.Add(nextSection);
         }
     }
 }
